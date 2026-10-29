@@ -17,14 +17,21 @@ const EmployeeAttendance = () => <div className="flex justify-center items-cente
 const EmployeeLeaves = () => <div className="flex justify-center items-center h-screen font-semibold">Leave Requests Page</div>;
 
 export const AppRoutes = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen font-semibold text-indigo-600">
+        Loading HR Portal...
+      </div>
+    );
+  }
 
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Admin Routes wrapped with ProtectedRoute and AdminLayout */}
       <Route
         element={
           <ProtectedRoute requiredRole="Admin">
@@ -38,7 +45,6 @@ export const AppRoutes = () => {
         <Route path="/admin/payroll" element={<AdminPayroll />} />
       </Route>
 
-      {/* Employee Routes wrapped with ProtectedRoute and EmployeeLayout */}
       <Route
         element={
           <ProtectedRoute requiredRole="Employee">
